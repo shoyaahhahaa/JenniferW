@@ -1,65 +1,121 @@
--- load UI library
+-- load library
 local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 
 local player = game.Players.LocalPlayer
-local speedValue = 16
 
--- create window
+local speedValue = 16
+local speedEnabled = false
+
+-- window
 local Window = Rayfield:CreateWindow({
    Name = "JenniferW Hub",
    LoadingTitle = "JenniferW",
    LoadingSubtitle = "by Shourya",
-   ConfigurationSaving = {
-      Enabled = false
-   }
+   ConfigurationSaving = {Enabled = false}
 })
 
 -- tabs
 local MainTab = Window:CreateTab("Main", 4483362458)
 local SettingsTab = Window:CreateTab("Settings", 4483362458)
 
--- notification
+-- notify
 Rayfield:Notify({
    Title = "JenniferW Hub",
    Content = "Loaded successfully!",
-   Duration = 5,
-   Image = 4483362458
+   Duration = 4
 })
-
--- label
-MainTab:CreateLabel("JenniferW Hub v1.0")
 
 -- section
 MainTab:CreateSection("Player")
 
--- function that keeps speed applied
+-- function to apply speed
 local function applySpeed()
    if player.Character and player.Character:FindFirstChild("Humanoid") then
-      player.Character.Humanoid.WalkSpeed = speedValue
+      if speedEnabled then
+         player.Character.Humanoid.WalkSpeed = speedValue
+      else
+         player.Character.Humanoid.WalkSpeed = 16
+      end
    end
 end
 
--- apply speed when character respawns
+-- respawn fix
 player.CharacterAdded:Connect(function()
    task.wait(1)
    applySpeed()
 end)
 
--- speed slider
-MainTab:CreateSlider({
-   Name = "WalkSpeed",
-   Range = {16,100},
-   Increment = 1,
-   CurrentValue = 16,
+-- speed input
+MainTab:CreateInput({
+   Name = "WalkSpeed Value",
+   PlaceholderText = "Enter speed",
+   RemoveTextAfterFocusLost = false,
+   Callback = function(Text)
+      local num = tonumber(Text)
+      if num then
+         speedValue = num
+         applySpeed()
+      end
+   end
+})
+
+-- speed toggle
+MainTab:CreateToggle({
+   Name = "Enable WalkSpeed",
+   CurrentValue = false,
    Callback = function(Value)
-      speedValue = Value
+      speedEnabled = Value
       applySpeed()
    end
 })
 
--- settings tab
-SettingsTab:CreateLabel("Settings")
+-- SETTINGS TAB
+SettingsTab:CreateSection("UI")
 
+local r = 0
+local g = 170
+local b = 255
+
+local function updateColor()
+   Rayfield:SetTheme({
+      AccentColor = Color3.fromRGB(r,g,b)
+   })
+end
+
+SettingsTab:CreateSlider({
+   Name = "Red",
+   Range = {0,255},
+   Increment = 1,
+   CurrentValue = r,
+   Callback = function(Value)
+      r = Value
+      updateColor()
+   end
+})
+
+SettingsTab:CreateSlider({
+   Name = "Green",
+   Range = {0,255},
+   Increment = 1,
+   CurrentValue = g,
+   Callback = function(Value)
+      g = Value
+      updateColor()
+   end
+})
+
+SettingsTab:CreateSlider({
+   Name = "Blue",
+   Range = {0,255},
+   Increment = 1,
+   CurrentValue = b,
+   Callback = function(Value)
+      b = Value
+      updateColor()
+   end
+})
+
+-- unload
 SettingsTab:CreateButton({
    Name = "Unload Hub",
    Callback = function()
@@ -70,7 +126,7 @@ SettingsTab:CreateButton({
 -- toggle UI with 0 key
 local UIS = game:GetService("UserInputService")
 
-UIS.InputBegan:Connect(function(input, gameProcessed)
+UIS.InputBegan:Connect(function(input, gp)
    if input.KeyCode == Enum.KeyCode.Zero then
       Rayfield:Toggle()
    end
