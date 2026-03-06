@@ -1,31 +1,21 @@
-local OrionLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/shlexware/Orion/main/source"))()
+local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 
-local Window = OrionLib:MakeWindow({
-	Name = "JenniferW Hub",
-	HidePremium = false,
-	SaveConfig = false,
-	ConfigFolder = "JenniferWHub"
+local Window = Rayfield:CreateWindow({
+   Name = "JenniferW Hub",
+   LoadingTitle = "JenniferW",
+   LoadingSubtitle = "by Shourya",
+   ConfigurationSaving = {
+      Enabled = false,
+   }
 })
 
-local MainTab = Window:MakeTab({
-	Name = "Main",
-	Icon = "rbxassetid://4483345998",
-	PremiumOnly = false
+local MainTab = Window:CreateTab("Main", 4483362458)
+
+MainTab:CreateToggle({
+   Name = "Example Toggle",
+   CurrentValue = false,
+   Flag = "Toggle1",
+   Callback = function(Value)
+      print("Toggle:", Value)
+   end,
 })
-
-MainTab:AddToggle({
-	Name = "Example Toggle",
-	Default = false,
-	Callback = function(Value)
-		print("Toggle state:", Value)
-	end
-})
-
-OrionLib:Init()
-local UIS = game:GetService("UserInputService")
-
-UIS.InputBegan:Connect(function(input, gameProcessed)
-	if input.KeyCode == Enum.KeyCode.LeftBracket then
-		OrionLib:Toggle()
-	end
-end)
