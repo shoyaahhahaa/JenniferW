@@ -16,12 +16,5 @@ local MainTab = Window:CreateTab("Main", 4483362458)
 local Tab6 = Window:CreateTab("6", 4483362458)
 local Tab7 = Window:CreateTab("7", 4483362458)
 
-MainTab:CreateToggle({
-   Name = "Example Toggle",
-   CurrentValue = false,
-   Flag = "Toggle1",
-   Callback = function(Value)
-      print("Toggle:", Value)
-   end,
-})
+
 
