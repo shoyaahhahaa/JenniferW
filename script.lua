@@ -113,17 +113,13 @@ SettingsTab:CreateInput({
 
 SettingsTab:CreateSection("UI")
 
-local hexColor = "#00AAFF"
-
 SettingsTab:CreateInput({
-   Name = "UI Hex Color",
+   Name = "Hex Color",
    PlaceholderText = "#00AAFF",
    RemoveTextAfterFocusLost = false,
    Callback = function(text)
 
-      hexColor = text
-
-      local hex = hexColor:gsub("#","")
+      local hex = text:gsub("#","")
 
       if #hex ~= 6 then return end
 
@@ -135,15 +131,18 @@ SettingsTab:CreateInput({
 
          local color = Color3.fromRGB(r,g,b)
 
+         -- change rayfield theme
+         Rayfield.Theme.Accent = color
+
+         -- update UI
          for _,v in pairs(game.CoreGui:GetDescendants()) do
-            if v:IsA("Frame") or v:IsA("TextButton") then
-               if v.BackgroundColor3 == Color3.fromRGB(0,170,255) then
-                  v.BackgroundColor3 = color
-               end
+            if v:IsA("Frame") and v.Name == "Accent" then
+               v.BackgroundColor3 = color
             end
          end
 
       end
+
    end
 })
 
