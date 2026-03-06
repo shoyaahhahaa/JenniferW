@@ -111,23 +111,48 @@ SettingsTab:CreateInput({
    end
 })
 
-SettingsTab:CreateButton({
-   Name = "Apply UI Color",
-   Callback = function()
-      Rayfield:Destroy()
+SettingsTab:CreateSection("UI Color")
 
-      local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
+local uiColor = Color3.fromRGB(0,170,255)
 
-      local Window = Rayfield:CreateWindow({
-         Name = "JenniferW Hub",
-         LoadingTitle = "JenniferW",
-         LoadingSubtitle = "by Shourya",
-         ConfigurationSaving = {Enabled = false}
-      })
+SettingsTab:CreateInput({
+   Name = "RGB or HEX Color",
+   PlaceholderText = "Example: 255,0,0 or #FF0000",
+   RemoveTextAfterFocusLost = false,
+   Callback = function(text)
 
-      Rayfield:SetTheme({
-         AccentColor = Color3.fromRGB(r,g,b)
-      })
+      -- HEX
+      if string.sub(text,1,1) == "#" then
+         local hex = text:gsub("#","")
+         if #hex == 6 then
+            local r = tonumber(hex:sub(1,2),16)
+            local g = tonumber(hex:sub(3,4),16)
+            local b = tonumber(hex:sub(5,6),16)
+
+            if r and g and b then
+               uiColor = Color3.fromRGB(r,g,b)
+               Rayfield:SetTheme({
+                  AccentColor = uiColor
+               })
+            end
+         end
+
+      else
+         -- RGB
+         local r,g,b = text:match("(%d+),(%d+),(%d+)")
+
+         r = tonumber(r)
+         g = tonumber(g)
+         b = tonumber(b)
+
+         if r and g and b then
+            uiColor = Color3.fromRGB(r,g,b)
+            Rayfield:SetTheme({
+               AccentColor = uiColor
+            })
+         end
+      end
+
    end
 })
 
