@@ -9,7 +9,9 @@ local player = Players.LocalPlayer
 local speedValue = 16
 local speedEnabled = false
 
-local r,g,b = 68, 40, 68
+Rayfield:SetTheme({
+   AccentColor = Color3.fromRGB(68, 40, 68)
+})
 
 -- window
 local Window = Rayfield:CreateWindow({
