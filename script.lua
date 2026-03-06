@@ -9,9 +9,6 @@ local player = Players.LocalPlayer
 local speedValue = 16
 local speedEnabled = false
 
-Rayfield:SetTheme({
-   AccentColor = Color3.fromRGB(68, 40, 68)
-})
 
 -- window
 local Window = Rayfield:CreateWindow({
@@ -24,6 +21,7 @@ local Window = Rayfield:CreateWindow({
 -- tabs
 local MainTab = Window:CreateTab("Main", 4483362458)
 local SettingsTab = Window:CreateTab("Settings", 4483362458)
+local InfoTab = Window:CreateTab("Info", 4483362458)
 
 -- notification
 Rayfield:Notify({
@@ -93,4 +91,34 @@ UIS.InputBegan:Connect(function(input, gp)
    if input.KeyCode == Enum.KeyCode.Zero then
       Rayfield:Toggle()
    end
+end)
+
+------------------------------------------------
+-- info tab
+------------------------------------------------
+
+
+local player = game.Players.LocalPlayer
+
+InfoTab:CreateLabel("Username: "..player.Name)
+
+local userId = player.UserId
+
+InfoTab:CreateImage({
+   Name = "User Avatar",
+   Image = "https://www.roblox.com/headshot-thumbnail/image?userId="..userId.."&width=420&height=420&format=png"
+})
+
+local startTime = tick()
+
+local runtimeLabel = InfoTab:CreateLabel("Running Time: 0s")
+
+task.spawn(function()
+	while true do
+		task.wait(1)
+
+		local elapsed = math.floor(tick() - startTime)
+
+		runtimeLabel:Set("Running Time: "..elapsed.."s")
+	end
 end)
