@@ -73,43 +73,7 @@ end)
 -- SETTINGS TAB
 ------------------------------------------------
 
-SettingsTab:CreateSection("UI Color")
 
-SettingsTab:CreateInput({
-   Name = "Red (0-255)",
-   PlaceholderText = "0-255",
-   RemoveTextAfterFocusLost = false,
-   Callback = function(text)
-      local num = tonumber(text)
-      if num then
-         r = num
-      end
-   end
-})
-
-SettingsTab:CreateInput({
-   Name = "Green (0-255)",
-   PlaceholderText = "0-255",
-   RemoveTextAfterFocusLost = false,
-   Callback = function(text)
-      local num = tonumber(text)
-      if num then
-         g = num
-      end
-   end
-})
-
-SettingsTab:CreateInput({
-   Name = "Blue (0-255)",
-   PlaceholderText = "0-255",
-   RemoveTextAfterFocusLost = false,
-   Callback = function(text)
-      local num = tonumber(text)
-      if num then
-         b = num
-      end
-   end
-})
 
 SettingsTab:CreateSection("UI")
 
