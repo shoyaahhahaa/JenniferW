@@ -19,3 +19,10 @@ MainTab:CreateToggle({
       print("Toggle:", Value)
    end,
 })
+local UIS = game:GetService("UserInputService")
+
+UIS.InputBegan:Connect(function(input, gameProcessed)
+	if input.KeyCode == Enum.KeyCode.Zero then
+		Rayfield:Toggle()
+	end
+end)
