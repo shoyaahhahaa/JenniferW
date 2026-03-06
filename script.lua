@@ -77,13 +77,22 @@ end)
 
 SettingsTab:CreateSection("UI")
 
+local uiHex = "#00AAFF"
+
 SettingsTab:CreateInput({
-   Name = "Hex Color",
-   PlaceholderText = "#00AAFF",
+   Name = "UI Hex Color",
+   PlaceholderText = "#FF0000",
    RemoveTextAfterFocusLost = false,
    Callback = function(text)
+      uiHex = text
+   end
+})
 
-      local hex = text:gsub("#","")
+SettingsTab:CreateButton({
+   Name = "Apply Color",
+   Callback = function()
+
+      local hex = uiHex:gsub("#","")
 
       if #hex ~= 6 then return end
 
@@ -91,25 +100,20 @@ SettingsTab:CreateInput({
       local g = tonumber(hex:sub(3,4),16)
       local b = tonumber(hex:sub(5,6),16)
 
-      if r and g and b then
+      if not (r and g and b) then return end
 
-         local color = Color3.fromRGB(r,g,b)
+      -- destroy UI
+      Rayfield:Destroy()
 
-         -- change rayfield theme
-         Rayfield.Theme.Accent = color
+      -- reload rayfield
+      local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 
-         -- update UI
-         for _,v in pairs(game.CoreGui:GetDescendants()) do
-            if v:IsA("Frame") and v.Name == "Accent" then
-               v.BackgroundColor3 = color
-            end
-         end
-
-      end
+      Rayfield:SetTheme({
+         AccentColor = Color3.fromRGB(r,g,b)
+      })
 
    end
 })
-
 SettingsTab:CreateButton({
    Name = "Unload Hub",
    Callback = function()
