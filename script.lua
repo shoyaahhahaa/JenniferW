@@ -111,43 +111,39 @@ SettingsTab:CreateInput({
    end
 })
 
-SettingsTab:CreateSection("UI Color")
+SettingsTab:CreateSection("UI")
 
-local uiHex = "#00AAFF"
+local hexColor = "#00AAFF"
 
 SettingsTab:CreateInput({
-   Name = "HEX Color",
-   PlaceholderText = "#FF0000",
+   Name = "UI Hex Color",
+   PlaceholderText = "#00AAFF",
    RemoveTextAfterFocusLost = false,
    Callback = function(text)
-      uiHex = text
-   end
-})
 
-SettingsTab:CreateButton({
-   Name = "Apply UI Color",
-   Callback = function()
+      hexColor = text
 
-      local hex = uiHex:gsub("#","")
+      local hex = hexColor:gsub("#","")
 
-      if #hex == 6 then
-         local r = tonumber(hex:sub(1,2),16)
-         local g = tonumber(hex:sub(3,4),16)
-         local b = tonumber(hex:sub(5,6),16)
+      if #hex ~= 6 then return end
 
-         if r and g and b then
+      local r = tonumber(hex:sub(1,2),16)
+      local g = tonumber(hex:sub(3,4),16)
+      local b = tonumber(hex:sub(5,6),16)
 
-            Rayfield:Destroy()
+      if r and g and b then
 
-            local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
+         local color = Color3.fromRGB(r,g,b)
 
-            Rayfield:SetTheme({
-               AccentColor = Color3.fromRGB(r,g,b)
-            })
-
+         for _,v in pairs(game.CoreGui:GetDescendants()) do
+            if v:IsA("Frame") or v:IsA("TextButton") then
+               if v.BackgroundColor3 == Color3.fromRGB(0,170,255) then
+                  v.BackgroundColor3 = color
+               end
+            end
          end
-      end
 
+      end
    end
 })
 
