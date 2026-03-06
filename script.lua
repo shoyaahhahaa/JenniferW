@@ -1,4 +1,7 @@
 local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
+Rayfield:SetTheme({
+    AccentColor = Color3.fromRGB(68, 40, 68)
+})
 
 local Window = Rayfield:CreateWindow({
    Name = "JenniferW Hub",
@@ -10,6 +13,8 @@ local Window = Rayfield:CreateWindow({
 })
 
 local MainTab = Window:CreateTab("Main", 4483362458)
+local Tab6 = Window:CreateTab("6", 4483362458)
+local Tab7 = Window:CreateTab("7", 4483362458)
 
 MainTab:CreateToggle({
    Name = "Example Toggle",
@@ -19,10 +24,4 @@ MainTab:CreateToggle({
       print("Toggle:", Value)
    end,
 })
-local UIS = game:GetService("UserInputService")
 
-UIS.InputBegan:Connect(function(input, gameProcessed)
-	if input.KeyCode == Enum.KeyCode.Zero then
-		Rayfield:Toggle()
-	end
-end)
