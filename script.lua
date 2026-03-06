@@ -1,7 +1,5 @@
 local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
-Rayfield:SetTheme({
-    AccentColor = Color3.fromRGB(68, 40, 68)
-})
+
 
 local Window = Rayfield:CreateWindow({
    Name = "JenniferW Hub",
