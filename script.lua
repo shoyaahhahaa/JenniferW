@@ -9,13 +9,13 @@ local player = Players.LocalPlayer
 local speedValue = 16
 local speedEnabled = false
 
-local r,g,b = 0,170,255
+local r,g,b = 68, 40, 68
 
 -- window
 local Window = Rayfield:CreateWindow({
-   Name = "JenniferW Hub",
-   LoadingTitle = "JenniferW",
-   LoadingSubtitle = "by Shourya",
+   Name = "JenniferW v1.2",
+   LoadingTitle = "JenniferW v1.2",
+   LoadingSubtitle = "by Shoya",
    ConfigurationSaving = {Enabled = false}
 })
 
@@ -25,7 +25,7 @@ local SettingsTab = Window:CreateTab("Settings", 4483362458)
 
 -- notification
 Rayfield:Notify({
-   Title = "JenniferW Hub",
+   Title = "JenniferW V1.2",
    Content = "Loaded!",
    Duration = 4
 })
@@ -75,45 +75,7 @@ end)
 
 
 
-SettingsTab:CreateSection("UI")
 
-local uiHex = "#00AAFF"
-
-SettingsTab:CreateInput({
-   Name = "UI Hex Color",
-   PlaceholderText = "#FF0000",
-   RemoveTextAfterFocusLost = false,
-   Callback = function(text)
-      uiHex = text
-   end
-})
-
-SettingsTab:CreateButton({
-   Name = "Apply Color",
-   Callback = function()
-
-      local hex = uiHex:gsub("#","")
-
-      if #hex ~= 6 then return end
-
-      local r = tonumber(hex:sub(1,2),16)
-      local g = tonumber(hex:sub(3,4),16)
-      local b = tonumber(hex:sub(5,6),16)
-
-      if not (r and g and b) then return end
-
-      -- destroy UI
-      Rayfield:Destroy()
-
-      -- reload rayfield
-      local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
-
-      Rayfield:SetTheme({
-         AccentColor = Color3.fromRGB(r,g,b)
-      })
-
-   end
-})
 SettingsTab:CreateButton({
    Name = "Unload Hub",
    Callback = function()
