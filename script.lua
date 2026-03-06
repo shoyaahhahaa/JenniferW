@@ -1,12 +1,15 @@
 -- load rayfield
 local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 
-local player = game.Players.LocalPlayer
+local Players = game:GetService("Players")
+local UIS = game:GetService("UserInputService")
+
+local player = Players.LocalPlayer
 
 local speedValue = 16
 local speedEnabled = false
 
--- window
+-- create window
 local Window = Rayfield:CreateWindow({
    Name = "JenniferW Hub",
    LoadingTitle = "JenniferW",
@@ -25,37 +28,18 @@ Rayfield:Notify({
    Duration = 4
 })
 
--- player section
+-- PLAYER SECTION
 MainTab:CreateSection("Player")
-
--- function that applies speed
-local function applySpeed()
-   local char = player.Character
-   if char and char:FindFirstChild("Humanoid") then
-      if speedEnabled then
-         char.Humanoid.WalkSpeed = speedValue
-      else
-         char.Humanoid.WalkSpeed = 16
-      end
-   end
-end
-
--- keep speed on respawn
-player.CharacterAdded:Connect(function()
-   task.wait(1)
-   applySpeed()
-end)
 
 -- speed input
 MainTab:CreateInput({
    Name = "WalkSpeed Value",
-   PlaceholderText = "Type number (ex: 50)",
+   PlaceholderText = "Example: 50",
    RemoveTextAfterFocusLost = false,
    Callback = function(text)
       local num = tonumber(text)
       if num then
          speedValue = num
-         applySpeed()
       end
    end
 })
@@ -66,11 +50,23 @@ MainTab:CreateToggle({
    CurrentValue = false,
    Callback = function(state)
       speedEnabled = state
-      applySpeed()
    end
 })
 
--- SETTINGS UI SECTION
+-- enforce speed loop
+task.spawn(function()
+   while true do
+      task.wait(0.1)
+      if speedEnabled then
+         local char = player.Character
+         if char and char:FindFirstChild("Humanoid") then
+            char.Humanoid.WalkSpeed = speedValue
+         end
+      end
+   end
+end)
+
+-- SETTINGS
 SettingsTab:CreateSection("UI")
 
 local r,g,b = 0,170,255
@@ -86,8 +82,8 @@ SettingsTab:CreateSlider({
    Range = {0,255},
    Increment = 1,
    CurrentValue = r,
-   Callback = function(val)
-      r = val
+   Callback = function(v)
+      r = v
       updateColor()
    end
 })
@@ -97,8 +93,8 @@ SettingsTab:CreateSlider({
    Range = {0,255},
    Increment = 1,
    CurrentValue = g,
-   Callback = function(val)
-      g = val
+   Callback = function(v)
+      g = v
       updateColor()
    end
 })
@@ -108,8 +104,8 @@ SettingsTab:CreateSlider({
    Range = {0,255},
    Increment = 1,
    CurrentValue = b,
-   Callback = function(val)
-      b = val
+   Callback = function(v)
+      b = v
       updateColor()
    end
 })
@@ -122,10 +118,8 @@ SettingsTab:CreateButton({
    end
 })
 
--- UI toggle key (0 key top row)
-local UIS = game:GetService("UserInputService")
-
-UIS.InputBegan:Connect(function(input, gpe)
+-- UI toggle key
+UIS.InputBegan:Connect(function(input, gp)
    if input.KeyCode == Enum.KeyCode.Zero then
       Rayfield:Toggle()
    end
