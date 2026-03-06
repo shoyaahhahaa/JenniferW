@@ -22,3 +22,10 @@ MainTab:AddToggle({
 })
 
 OrionLib:Init()
+local UIS = game:GetService("UserInputService")
+
+UIS.InputBegan:Connect(function(input, gameProcessed)
+	if input.KeyCode == Enum.KeyCode.LeftBracket then
+		OrionLib:Toggle()
+	end
+end)
